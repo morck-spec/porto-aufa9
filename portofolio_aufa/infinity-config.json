@@ -1,0 +1,18 @@
+{
+    "modeName": "GOJO SATORU / UNLIMITED VOID",
+    "personaName": "AUFA SATORU",
+    "activeClass": "infinity-active",
+    "animation": {
+        "portalDuration": 1200,
+        "switchMidpoint": 550,
+        "ringRotationSpeed": "25s"
+    },
+    "themeColors": {
+        "sixEyesCyan": "#00f0ff",
+        "sixEyesGlow": "#70f3ff",
+        "limitlessBlue": "#1d4ed8",
+        "hollowPurple": "#9333ea",
+        "hollowPurpleGlow": "#c084fc",
+        "darkVoid": "#02040c"
+    }
+}

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Portfolio Personal Aufa Putra - Senior Frontend Developer & UI/UX Specialist. Interactive web experiences with secret Unlimited Void Gojo Mode.">
+    <meta name="author" content="Aufa Putra">
+    <title>Aufa Putra | Creative Portfolio</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GSAP for Smooth Interactive Animations (via CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="infinity-mode.css">
+</head>
+
+<body>
+    <!-- Restore Infinity Mode state before first paint (prevents flash of normal UI) -->
+    <script>
+        try { if (localStorage.getItem('aufa-infinity-mode') === 'on') document.body.classList.add('infinity-active'); } catch (e) { }
+    </script>
+
+    <!-- =================================================================== -->
+    <!-- INFINITY MODE: GOJO SATORU SYSTEM LAYERS (visible only on body.infinity-active) -->
+    <!-- =================================================================== -->
+    <!-- Cursed Tech System backdrop: navy→purple gradient, faint grid, Six Eyes pattern, Hollow Purple glow -->
+    <div class="gs-backdrop" aria-hidden="true">
+        <div class="gs-glow gs-glow-cyan"></div>
+        <div class="gs-glow gs-glow-purple"></div>
+        <div class="gs-grid"></div>
+        <div class="gs-six-eyes"></div>
+        <div class="gs-light-streak"></div>
+    </div>
+
+    <!-- Unlimited Void transition overlay -->
+    <div id="gs-transition" class="gs-transition" aria-hidden="true">
+        <div class="gs-transition-glow"></div>
+        <div class="gs-transition-core">
+            <span class="gs-transition-symbol">∞</span>
+            <span class="gs-transition-title" id="gs-transition-title">無量空処</span>
+            <span class="gs-transition-sub" id="gs-transition-sub">DOMAIN EXPANSION · UNLIMITED VOID</span>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- LATAR BELAKANG PARTIKEL CANVAS                                      -->
+    <!-- =================================================================== -->
+    <canvas id="space-canvas"></canvas>
+
+    <!-- Glowing Background Ambient Energy Orbs -->
+    <div class="nebula nebula-1" data-parallax="-0.03"></div>
+    <div class="nebula nebula-2" data-parallax="0.04"></div>
+    <div class="nebula nebula-3" data-parallax="-0.02"></div>
+
+    <!-- =================================================================== -->
+    <!-- HEADER NAVIGASI STICKY GLASSMORPHISM                                -->
+    <!-- =================================================================== -->
+    <header class="glass-nav-header">
+        <div class="container nav-container">
+            <!-- Logo / Branding -->
+            <a href="#hero" class="nav-logo" id="nav-logo">
+                <span class="logo-icon normal-only"><i class="fa-solid fa-atom logo-icon-anim"></i></span>
+                <span class="logo-text normal-only" id="brand-logo-text">AUFA<span class="highlight">.IND</span></span>
+                <!-- Gojo System brand (Infinity Mode only) -->
+                <span class="gs-brand gs-only">
+                    <span class="gs-brand-dot"></span>
+                    <span class="gs-brand-name">GOJO SATORU</span>
+                    <span class="gs-brand-sep">•</span>
+                    <span class="gs-brand-jp">無量空処</span>
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li><a href="#hero" class="nav-link active" id="nav-link-hero"><i class="fa-solid fa-house"></i> <span
+                                data-normal="Home" data-gojo="🏠 Menu Utama">Home</span></a></li>
+                    <li><a href="#about" class="nav-link" id="nav-link-about"><i class="fa-solid fa-user"></i> <span
+                                data-normal="Tentang" data-gojo="👤 Profil">Tentang</span></a></li>
+                    <li><a href="#skills" class="nav-link" id="nav-link-skills"><i class="fa-solid fa-brain"></i> <span
+                                data-normal="Keahlian" data-gojo="🧠 Data Skill">Keahlian</span></a></li>
+                    <li><a href="#projects" class="nav-link" id="nav-link-projects"><i class="fa-solid fa-rocket"></i> <span
+                                data-normal="Proyek" data-gojo="🚀 Data Proyek">Proyek</span></a></li>
+                    <li><a href="#prestasi" class="nav-link" id="nav-link-prestasi"><i class="fa-solid fa-award"></i> <span
+                                data-normal="Prestasi" data-gojo="🏆 Prestasi">Prestasi</span></a></li>
+                    <li><a href="#contact" class="nav-link" id="nav-link-contact"><i class="fa-solid fa-paper-plane"></i> <span
+                                data-normal="Kontak" data-gojo="📡 Kontak">Kontak</span></a></li>
+                </ul>
+            </nav>
+
+            <!-- Nav Actions & Mobile Toggle -->
+            <div class="nav-actions">
+                <!-- Secret Transformation Switch: Infinity Mode -->
+                <button id="zero-g-toggle" class="btn-zero-g" type="button" aria-pressed="false"
+                    title="Aktifkan Infinity Mode (Gojo Satoru System)">
+                    <i class="fa-solid fa-eye btn-mode-icon"></i>
+                    <span class="btn-text">Infinity Mode</span>
+                </button>
+
+                <!-- Mobile Hamburger Button -->
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main>
+
+        <!-- =================================================================== -->
+        <!-- HERO SECTION                                                        -->
+        <!-- =================================================================== -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-grid">
+
+                <!-- Hero Left Content -->
+                <div class="hero-content" data-parallax="0.02">
+                    <!-- Gojo System status bar (Infinity Mode only) -->
+                    <div class="gs-statusbar gs-only" aria-hidden="true">
+                        <span class="gs-status-chip"><span class="gs-status-dot"></span>SYSTEM ONLINE</span>
+                        <span class="gs-status-chip">👁 SIX EYES · ACTIVE</span>
+                        <span class="gs-status-chip">∞ INFINITY · ON</span>
+                    </div>
+
+                    <div class="hero-badge float-anim-1">
+                        <span class="pulse-dot"></span>
+                        <span id="hero-badge-text" data-normal="✦ CREATIVE FRONTEND ARCHITECT"
+                            data-gojo="CREATIVE FRONTEND ARCHITECT · 無量空処">✦ CREATIVE FRONTEND ARCHITECT</span>
+                    </div>
+
+                    <h1 class="hero-title reveal-text">
+                        Halo, Saya <span class="gradient-text hero-name" id="hero-name-display">Aufa Putra.</span>
+                        <br>
+                        <span class="title-sub" id="hero-sub-display">Senior Frontend
+                            Architect & UI/UX Specialist</span>
+                    </h1>
+
+                    <p class="hero-description float-anim-2" id="hero-desc-display">
+                        Membangun pengalaman web modern, responsif, dan elegan. Menggabungkan estetika visual kelas atas
+                        dengan performa ultra-cepat.
+                    </p>
+
+                    <!-- Hero Call to Action Buttons -->
+                    <div class="hero-cta float-anim-3">
+                        <a href="#projects" class="btn btn-primary btn-glow">
+                            <span>Eksplorasi Karya</span>
+                            <i class="fa-solid fa-arrow-down-long"></i>
+                        </a>
+                        <a href="#contact" class="btn btn-secondary glass-btn">
+                            <span>Hubungi Saya</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </a>
+                    </div>
+
+                    <!-- Hero Quick Stats / Highlights -->
+                    <div class="hero-stats">
+                        <div class="stat-item float-anim-2">
+                            <span class="stat-number" data-target="5">5+</span>
+                            <span class="stat-label">Tahun Pengalaman</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item float-anim-1">
+                            <span class="stat-number" data-target="35">35+</span>
+                            <span class="stat-label">Proyek Selesai</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item float-anim-3">
+                            <span class="stat-number" data-target="99">99%</span>
+                            <span class="stat-label">Kepuasan Klien</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Interactive Float Object / Orbital Card -->
+                <div class="hero-visual" data-parallax="-0.04">
+                    <div class="zero-g-orb-container float-anim-main">
+                        <!-- Holographic Orbit Rings -->
+                        <div class="orbit-ring ring-1"></div>
+                        <div class="orbit-ring ring-2"></div>
+
+                        <!-- Core Avatar Glass Card -->
+                        <div class="avatar-glass-card 3d-tilt-target">
+                            <div class="card-glow-aurora"></div>
+
+                            <!-- Foto Profil Aufa (ASLI - BEBAS EDIT/FILTER) -->
+                            <div class="avatar-image-wrapper">
+                                <img src="assets/images/profile.jpg" alt="Foto Profil Aufa" class="avatar-real-photo">
+                            </div>
+
+                            <!-- Futuristic frame overlay (Infinity Mode only) - does NOT modify the photo -->
+                            <div class="gs-photo-frame gs-only" aria-hidden="true">
+                                <span class="gs-corner gs-tl"></span>
+                                <span class="gs-corner gs-tr"></span>
+                                <span class="gs-corner gs-bl"></span>
+                                <span class="gs-corner gs-br"></span>
+                                <span class="gs-scanline"></span>
+                                <span class="gs-photo-tag">👁 SIX EYES · VERIFIED</span>
+                            </div>
+
+                            <div class="avatar-info">
+                                <h3 id="avatar-card-title">Aufa Tech Studio</h3>
+                                <p><i class="fa-solid fa-location-dot"></i> Indonesia & Digital Nomad</p>
+                                <div class="status-indicator">
+                                    <span class="status-dot"></span>
+                                    <span>Tersedia Untuk Proyek Baru</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Orbiting Tech Pill Badges floating around -->
+                        <div class="floating-badge badge-1 float-anim-1">
+                            <i class="fa-brands fa-js"></i> JavaScript ES6+
+                        </div>
+                        <div class="floating-badge badge-2 float-anim-2">
+                            <i class="fa-brands fa-react"></i> React / Next.js
+                        </div>
+                        <div class="floating-badge badge-3 float-anim-3">
+                            <i class="fa-brands fa-css3-alt"></i> Modern CSS3
+                        </div>
+                        <div class="floating-badge badge-4 float-anim-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> GSAP Animation
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Scroll Indicator -->
+            <a href="#about" class="scroll-down-indicator" aria-label="Scroll to About Section">
+                <span class="mouse-icon">
+                    <span class="wheel"></span>
+                </span>
+                <span class="scroll-text">Meluncur Ke Bawah</span>
+            </a>
+        </section>
+
+
+        <!-- =================================================================== -->
+        <!-- ABOUT SECTION (TENTANG SAYA & GOJO DOMAIN PHILOSOPHY)               -->
+        <!-- =================================================================== -->
+        <section id="about" class="about-section section-padding">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="section-subtitle" data-normal="✦ FILOSOFI DESAIN"
+                        data-gojo="MODULE 01 · PROFILE">✦ FILOSOFI DESAIN</span>
+                    <h2 class="section-title" data-normal="Merancang Tanpa Batasan"
+                        data-gojo="👤 Profil Developer">Merancang Tanpa Batasan</h2>
+                    <div class="section-line"></div>
+                </div>
+
+                <div class="about-grid">
+                    <!-- Bio Text Card -->
+                    <div class="glass-card about-card reveal-up">
+                        <div class="card-header-icon">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <h3>Pengembang Web & Desainer
+                            Pengalaman Digital</h3>
+
+                        <p>
+                            Saya seorang Frontend Architect yang berdedikasi menciptakan antarmuka web modern dengan
+                            fokus utama pada animasi interaktif yang halus, estetika visual yang menawan, serta optimasi
+                            performa tinggi.
+                        </p>
+                        <p>
+                            Konsep Antigravity merepresentasikan cara kerja saya: memberikan kebebasan eksplorasi dalam
+                            setiap karya digital.
+                        </p>
+
+                        <div class="about-highlights">
+                            <div class="highlight-box">
+                                <i class="fa-solid fa-bolt"></i>
+                                <div>
+                                    <h4>Performa
+                                        100% Statis</h4>
+                                    <p>Ringan, tanpa
+                                        server-overhead, 100% ramah GitHub Pages.</p>
+                                </div>
+                            </div>
+                            <div class="highlight-box">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <div>
+                                    <h4>Desain Ethereal
+                                        UI</h4>
+                                    <p>Glassmorphic styling
+                                        dengan pancaran cahaya harmonis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Code/Architecture Card -->
+                    <div class="glass-card tech-stack-card reveal-up" style="animation-delay: 0.2s;">
+                        <div class="code-editor-mockup">
+                            <div class="editor-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="editor-title" data-normal="developer_dna.js"
+                                    data-gojo="unlimited_void.js">developer_dna.js</span>
+                            </div>
+                            <pre class="code-body"><code><span class="code-keyword">const</span> sorcerer = {
+  <span class="code-prop">name</span>: <span class="code-string">"Aufa Satoru"</span>,
+  <span class="code-prop">domain</span>: <span class="code-string">"Unlimited Void"</span>,
+  <span class="code-prop">technique</span>: <span class="code-string">"Six Eyes & Limitless Precision"</span>,
+  <span class="code-prop">output</span>: [
+    <span class="code-string">"Hollow Purple FX"</span>,
+    <span class="code-string">"Spatial Distortion UI"</span>,
+    <span class="code-string">"Maximum Output Web Crafting"</span>
+  ]
+};
+
+<span class="code-comment">// Domain Expansion Activated 👁️⚡</span>
+<span class="code-function">sorcerer</span>.<span class="code-method">expandDomain</span>();</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =================================================================== -->
+        <!-- SKILLS SECTION (IKON KEAHLIAN TERSEBAR & ORBITING)                  -->
+        <!-- =================================================================== -->
+        <section id="skills" class="skills-section section-padding">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="section-subtitle" data-normal="✦ KELOMPOK KEAHLIAN" data-gojo="MODULE 02 · SKILL MATRIX">✦
+                        KELOMPOK KEAHLIAN</span>
+                    <h2 class="section-title" data-normal="Teknologi & Fitur Utama"
+                        data-gojo="🧠 Data Keahlian">Teknologi & Fitur Utama</h2>
+                    <p class="section-desc"
+                        data-normal="Arahkan kursor ke elemen keahlian untuk merasakan respon interaktif."
+                        data-gojo="Stack teknologi dan keahlian yang saya kuasai, dipantau oleh Six Eyes.">Arahkan kursor
+                        ke elemen keahlian untuk merasakan respon interaktif.</p>
+                    <div class="section-line"></div>
+                </div>
+
+                <!-- Floating Orbit Skills Playground -->
+                <div class="skills-universe-container reveal-up">
+                    <div class="skills-center-core float-anim-1">
+                        <i class="fa-solid fa-atom core-icon normal-only"></i>
+                        <span class="gs-infinity-glyph gs-only" aria-hidden="true">∞</span>
+                        <span>CORE STACK</span>
+                    </div>
+
+                    <!-- Floating Skill Bubbles (Randomly Positioned & Floating) -->
+                    <!-- PENTING: ANDA BISA MENAMBAH ATAU MENGUBAH LIST KEAHLIAN DI SINI -->
+                    <div class="skill-orbit-bubble b-1 float-anim-1" data-skill="HTML5 & Semantic">
+                        <i class="fa-brands fa-html5"></i>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-2 float-anim-2" data-skill="CSS3 & Keyframe Anim">
+                        <i class="fa-brands fa-css3-alt"></i>
+                        <span>CSS3</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-3 float-anim-3" data-skill="Vanilla JavaScript ES6+">
+                        <i class="fa-brands fa-js"></i>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-4 float-anim-1" data-skill="GSAP Animation Library">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                        <span>GSAP</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-5 float-anim-2" data-skill="Responsive & Mobile First">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>Responsive</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-6 float-anim-3" data-skill="UI/UX Glassmorphism">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>UI/UX</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-7 float-anim-1" data-skill="Git & GitHub Pages">
+                        <i class="fa-brands fa-github"></i>
+                        <span>Git & Hosting</span>
+                    </div>
+                    <div class="skill-orbit-bubble b-8 float-anim-2" data-skill="Web Performance">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Web Speed</span>
+                    </div>
+                </div>
+
+                <!-- Skill Categories Grid -->
+                <div class="skills-grid reveal-up">
+                    <div class="glass-card skill-cat-card">
+                        <div class="cat-icon"><i class="fa-solid fa-code"></i></div>
+                        <h3>Frontend Development</h3>
+                        <ul class="skill-tags">
+                            <li>HTML5 Semantic</li>
+                            <li>CSS Variables & Flex/Grid</li>
+                            <li>Vanilla JS ES6+</li>
+                            <li>GSAP & ScrollTrigger</li>
+                            <li>Tailwind CSS / Bootstrap</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card skill-cat-card">
+                        <div class="cat-icon"><i class="fa-solid fa-bezier-curve"></i></div>
+                        <h3>UI/UX & Animation</h3>
+                        <ul class="skill-tags">
+                            <li>Glassmorphism Design</li>
+                            <li>3D Tilt & Parallax</li>
+                            <li>Keyframe Physics</li>
+                            <li>Micro-Interactions</li>
+                            <li>Figma Mockups</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card skill-cat-card">
+                        <div class="cat-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+                        <h3>Tools & Workflow</h3>
+                        <ul class="skill-tags">
+                            <li>Git & GitHub Pages</li>
+                            <li>VS Code Workspace</li>
+                            <li>Web Performance Optimization</li>
+                            <li>Cross-Browser Compatibility</li>
+                            <li>SEO Best Practices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =================================================================== -->
+        <!-- PROJECTS SECTION (KARTU PROYEK MELAYANG DENGAN EFEK 3D TILT)        -->
+        <!-- =================================================================== -->
+        <section id="projects" class="projects-section section-padding">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="section-subtitle" data-normal="✦ GALERI KARYA" data-gojo="MODULE 03 · PROJECT ARCHIVE">✦ GALERI
+                        KARYA</span>
+                    <h2 class="section-title" data-normal="Proyek Pilihan" data-gojo="🚀 Data Proyek">Proyek
+                        Pilihan</h2>
+                    <p class="section-desc"
+                        data-normal="Arahkan kursor pada kartu untuk merasakan efek kemiringan 3D (Tilt)."
+                        data-gojo="Kumpulan proyek pilihan yang telah saya rancang dan bangun.">Arahkan kursor
+                        pada kartu untuk merasakan efek kemiringan 3D (Tilt).</p>
+                    <div class="section-line"></div>
+                    <!-- Primary system action (Infinity Mode only) -->
+                    <a href="#contact" class="btn btn-primary btn-glow gs-only gs-header-action" id="gs-new-project-btn">
+                        <span>⚡</span>
+                        <span>Ajukan Proyek Baru</span>
+                    </a>
+                </div>
+
+                <!-- Project Category Filters -->
+                <div class="project-filters reveal-up">
+                    <button class="filter-btn active" data-filter="all" id="filter-all">Semua Proyek</button>
+                    <button class="filter-btn" data-filter="web" id="filter-web">Web Application</button>
+                    <button class="filter-btn" data-filter="creative" id="filter-creative">Creative & Animasi</button>
+                    <button class="filter-btn" data-filter="uiux" id="filter-uiux">UI/UX Redesign</button>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="projects-grid">
+
+                    <!-- ===================================================== -->
+                    <!-- PROYEK 1: EDIT DATA PROYEK 1 DI SINI                  -->
+                    <!-- ===================================================== -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-category="web">
+                        <div class="card-glare"></div>
+                        <div class="project-image-container">
+                            <img src="assets/images/project-1.jpg" alt="Dashboard Orbit Zero-G" class="project-img"
+                                loading="lazy">
+                            <div class="project-overlay">
+                                <a href="https://github.com" target="_blank" rel="noopener" class="icon-btn"
+                                    title="View Source Code">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                                <a href="#" class="icon-btn btn-modal-trigger" data-project="1" title="Detail Proyek">
+                                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                </a>
+                            </div>
+                            <span class="project-badge">Featured</span>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tech">
+                                <span>HTML5</span>
+                                <span>CSS Grid</span>
+                                <span>Vanilla JS</span>
+                            </div>
+                            <h3 class="project-title">Orbit Analytics Dashboard</h3>
+                            <p class="project-summary">
+                                Dashboard pemantauan data real-time dengan tampilan dark space mode, grafik interaktif,
+                                dan animasi widget melayang.
+                            </p>
+                            <div class="project-footer">
+                                <a href="#" class="project-link">
+                                    <span>Lihat Live Demo</span>
+                                    <i class="fa-solid fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===================================================== -->
+                    <!-- PROYEK 2: EDIT DATA PROYEK 2 DI SINI                  -->
+                    <!-- ===================================================== -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-category="creative"
+                        style="animation-delay: 0.15s;">
+                        <div class="card-glare"></div>
+                        <div class="project-image-container">
+                            <img src="assets/images/project-2.jpg" alt="Cosmic AI Assistant Interface"
+                                class="project-img" loading="lazy">
+                            <div class="project-overlay">
+                                <a href="https://github.com" target="_blank" rel="noopener" class="icon-btn"
+                                    title="View Source Code">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                                <a href="#" class="icon-btn btn-modal-trigger" data-project="2" title="Detail Proyek">
+                                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                </a>
+                            </div>
+                            <span class="project-badge">Interactive</span>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tech">
+                                <span>GSAP</span>
+                                <span>Canvas API</span>
+                                <span>CSS Variables</span>
+                            </div>
+                            <h3 class="project-title">Cosmic AI Holographic UI</h3>
+                            <p class="project-summary">
+                                Antarmuka asisten AI futuristik dengan respon efek partikel suara dan efek transisi neon
+                                holografis.
+                            </p>
+                            <div class="project-footer">
+                                <a href="#" class="project-link">
+                                    <span>Lihat Live Demo</span>
+                                    <i class="fa-solid fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===================================================== -->
+                    <!-- PROYEK 3: EDIT DATA PROYEK 3 DI SINI                  -->
+                    <!-- ===================================================== -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-category="uiux"
+                        style="animation-delay: 0.3s;">
+                        <div class="card-glare"></div>
+                        <div class="project-image-container">
+                            <img src="assets/images/project-3.jpg" alt="Nebula Mobile App UI" class="project-img"
+                                loading="lazy">
+                            <div class="project-overlay">
+                                <a href="https://github.com" target="_blank" rel="noopener" class="icon-btn"
+                                    title="View Source Code">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                                <a href="#" class="icon-btn btn-modal-trigger" data-project="3" title="Detail Proyek">
+                                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                </a>
+                            </div>
+                            <span class="project-badge">UI/UX Design</span>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tech">
+                                <span>Mobile UX</span>
+                                <span>Glassmorphism</span>
+                                <span>Prototyping</span>
+                            </div>
+                            <h3 class="project-title">Nebula Mobile Experience</h3>
+                            <p class="project-summary">
+                                Redesain aplikasi seluler bertema antariksa dengan gesture swipe tanpa hambatan dan
+                                animasi micro-feedback.
+                            </p>
+                            <div class="project-footer">
+                                <a href="#" class="project-link">
+                                    <span>Lihat Live Demo</span>
+                                    <i class="fa-solid fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =================================================================== -->
+        <!-- PRESTASI SECTION (SERTIFIKAT HORIZONTAL SCROLL)                    -->
+        <!-- =================================================================== -->
+        <section id="prestasi" class="prestasi-section section-padding">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="section-subtitle" data-normal="✦ GALERI PENCAPAIAN"
+                        data-gojo="MODULE 04 · ACHIEVEMENTS">✦ GALERI PENCAPAIAN</span>
+                    <h2 class="section-title" data-normal="Prestasi & Sertifikasi"
+                        data-gojo="🏆 Prestasi & Sertifikasi">Prestasi & Sertifikasi</h2>
+                    <p class="section-desc">Klik kartu untuk melihat sertifikat. Geser ke kanan untuk lebih banyak.</p>
+                    <div class="section-line"></div>
+                </div>
+
+                <!-- Horizontal Scroll Track -->
+                <div class="sertiv-scroll-wrapper reveal-up">
+                    <div class="sertiv-track">
+
+                        <!-- SERTIV 1 -->
+                        <div class="sertiv-chip" data-title="Nama Sertifikat" data-issuer="Nama Lembaga / Institusi"
+                            data-date="Bulan, Tahun" data-img="">
+                            <div class="sertiv-chip-icon">
+                                <i class="fa-solid fa-certificate"></i>
+                            </div>
+                            <div class="sertiv-chip-body">
+                                <span class="sertiv-chip-badge">Sertifikasi</span>
+                                <p class="sertiv-chip-name">Nama Sertifikat</p>
+                                <p class="sertiv-chip-issuer">Nama Lembaga</p>
+                            </div>
+                            <div class="sertiv-chip-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+
+                        <!-- SERTIV 2 -->
+                        <div class="sertiv-chip" data-title="Nama Penghargaan" data-issuer="Nama Lembaga / Institusi"
+                            data-date="Bulan, Tahun" data-img="">
+                            <div class="sertiv-chip-icon">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div class="sertiv-chip-body">
+                                <span class="sertiv-chip-badge">Penghargaan</span>
+                                <p class="sertiv-chip-name">Nama Penghargaan</p>
+                                <p class="sertiv-chip-issuer">Nama Lembaga</p>
+                            </div>
+                            <div class="sertiv-chip-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+
+                        <!-- SERTIV 3 -->
+                        <div class="sertiv-chip" data-title="Nama Kompetisi" data-issuer="Nama Lembaga / Institusi"
+                            data-date="Bulan, Tahun" data-img="">
+                            <div class="sertiv-chip-icon">
+                                <i class="fa-solid fa-medal"></i>
+                            </div>
+                            <div class="sertiv-chip-body">
+                                <span class="sertiv-chip-badge">Kompetisi</span>
+                                <p class="sertiv-chip-name">Nama Kompetisi</p>
+                                <p class="sertiv-chip-issuer">Nama Lembaga</p>
+                            </div>
+                            <div class="sertiv-chip-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+
+                        <!-- SERTIV 4 -->
+                        <div class="sertiv-chip" data-title="Nama Sertifikat" data-issuer="Nama Lembaga / Institusi"
+                            data-date="Bulan, Tahun" data-img="">
+                            <div class="sertiv-chip-icon">
+                                <i class="fa-solid fa-file-certificate"></i>
+                            </div>
+                            <div class="sertiv-chip-body">
+                                <span class="sertiv-chip-badge">Sertifikasi</span>
+                                <p class="sertiv-chip-name">Nama Sertifikat</p>
+                                <p class="sertiv-chip-issuer">Nama Lembaga</p>
+                            </div>
+                            <div class="sertiv-chip-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+
+                        <!-- SERTIV 5 -->
+                        <div class="sertiv-chip" data-title="Nama Pelatihan" data-issuer="Nama Lembaga / Institusi"
+                            data-date="Bulan, Tahun" data-img="">
+                            <div class="sertiv-chip-icon">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div class="sertiv-chip-body">
+                                <span class="sertiv-chip-badge">Pelatihan</span>
+                                <p class="sertiv-chip-name">Nama Pelatihan</p>
+                                <p class="sertiv-chip-issuer">Nama Lembaga</p>
+                            </div>
+                            <div class="sertiv-chip-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+
+                        <!-- SERTIV 6 -->
+                        <div class="sertiv-chip" data-title="Nama Workshop" data-issuer="Nama Lembaga / Institusi"
+                            data-date="Bulan, Tahun" data-img="">
+                            <div class="sertiv-chip-icon">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <div class="sertiv-chip-body">
+                                <span class="sertiv-chip-badge">Workshop</span>
+                                <p class="sertiv-chip-name">Nama Workshop</p>
+                                <p class="sertiv-chip-issuer">Nama Lembaga</p>
+                            </div>
+                            <div class="sertiv-chip-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+
+                    </div>
+                    <!-- Scroll fade edges -->
+                    <div class="sertiv-fade-left"></div>
+                    <div class="sertiv-fade-right"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sertiv Lightbox Modal -->
+        <div id="sertiv-modal" class="sertiv-modal-overlay hidden" aria-hidden="true">
+            <div class="sertiv-modal-box">
+                <button class="sertiv-modal-close" id="sertiv-modal-close" aria-label="Tutup"><i
+                        class="fa-solid fa-xmark"></i></button>
+                <div class="sertiv-modal-img-area" id="sertiv-modal-img-area">
+                    <!-- gambar atau placeholder dinamis -->
+                </div>
+                <div class="sertiv-modal-info">
+                    <span class="sertiv-modal-badge" id="sertiv-modal-badge"></span>
+                    <h3 id="sertiv-modal-title"></h3>
+                    <p id="sertiv-modal-issuer"><i class="fa-solid fa-building-columns"></i> <span></span></p>
+                    <p id="sertiv-modal-date"><i class="fa-regular fa-calendar"></i> <span></span></p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- =================================================================== -->
+        <!-- CONTACT SECTION (EFEK "FALLING UP" SAAT DI-SCROLL)                  -->
+        <!-- =================================================================== -->
+        <section id="contact" class="contact-section section-padding">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="section-subtitle" data-normal="✦ INTI KOMUNIKASI"
+                        data-gojo="MODULE 05 · TRANSMISSION">✦ INTI KOMUNIKASI</span>
+                    <h2 class="section-title" data-normal="Mari Meluncur Bersama"
+                        data-gojo="📡 Kontak & Kolaborasi">Mari Meluncur Bersama</h2>
+                    <p class="section-desc">Punya ide proyek luar biasa? Kirimkan pesan dan mari bangun sesuatu yang
+                        melampaui ekspektasi.</p>
+                    <div class="section-line"></div>
+                </div>
+
+                <div class="contact-container">
+
+
+
+                    <!-- Direct Contact Card -->
+                    <div class="glass-card contact-form-card fall-up-item" style="animation-delay: 0.2s;">
+                        <div class="direct-contact-wrapper" style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; height: 100%; text-align: center; padding: 2rem 1rem;">
+                            <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;"><span data-normal="Mari Berkolaborasi" data-gojo="Initiate Connection">Mari Berkolaborasi</span></h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;"><span data-normal="Pilih platform di bawah ini untuk terhubung dan berdiskusi secara langsung dengan saya." data-gojo="Select a secure channel to transmit your request.">Pilih platform di bawah ini untuk terhubung dan berdiskusi secara langsung dengan saya.</span></p>
+                            
+                            <a href="https://wa.me/6282337276873?text=Halo%20Aufa,%20saya%20tertarik%20untuk%20berkolaborasi..." target="_blank" rel="noopener" class="btn btn-primary btn-block btn-glow" style="display: flex; align-items: center; justify-content: center; gap: 0.8rem; background: #25D366; color: white; border: none; font-size: 1.1rem; padding: 1rem;">
+                                <i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i>
+                                <span>Hubungi via WhatsApp</span>
+                            </a>
+
+                            <a href="https://github.com/morck-spec" target="_blank" rel="noopener" class="btn btn-secondary btn-block" style="display: flex; align-items: center; justify-content: center; gap: 0.8rem; font-size: 1.1rem; padding: 1rem;">
+                                <i class="fa-brands fa-github" style="font-size: 1.5rem;"></i>
+                                <span>Kunjungi GitHub Saya</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- =================================================================== -->
+    <!-- PROJECT DETAILS MODAL                                              -->
+    <!-- =================================================================== -->
+    <div id="project-modal" class="modal-overlay hidden" aria-hidden="true">
+        <div class="modal-glass-container">
+            <button class="modal-close-btn" id="modal-close" aria-label="Tutup Modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Modal content dynamically injected by JS -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =================================================================== -->
+    <!-- FOOTER STERIL & FLOATING GOJO BUTTON                               -->
+    <!-- =================================================================== -->
+    <footer class="glass-footer">
+        <div class="container footer-container">
+            <div class="footer-left">
+                <p>&copy; <span id="current-year">2026</span> <strong>Aufa Portfolio</strong>. 100% Statis & Kompatibel
+                    GitHub Pages.</p>
+            </div>
+
+            <div class="footer-center">
+                <span class="zero-g-status-indicator">
+                    <span class="status-pulse"></span> <span data-normal="Limitless Domain Expansion Active"
+                        data-gojo="無量空処 · Unlimited Void Active">Limitless Domain Expansion Active</span>
+                </span>
+            </div>
+
+            <!-- Back to top button -->
+            <div class="footer-right">
+                <a href="#hero" class="back-to-top-btn" aria-label="Kembali ke Atas">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>Unlimited Void</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+    <script src="infinity-mode.js"></script>
+</body>
+
+</html>
